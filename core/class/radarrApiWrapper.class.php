@@ -159,7 +159,7 @@ class radarrApiWrapper
         // Analyze datas
         $missingMoviesList = [];
         foreach ($movies as $movie) {
-            if ($movie["status"] == "released" && $movie["hasFile"] == false) {
+            if ($movie["status"] == "released" && $movie["hasFile"] == false && $movie["monitored"] == true) {
                 //Episode is missing
                 array_push($missingMoviesList, $movie);
             }
@@ -254,7 +254,7 @@ class radarrApiWrapper
         $stopSearch = false;
         $pageToSearch = 1;
         while ($stopSearch == false) {
-            $historyJSON = $this->radarrApi->getHistory($pageToSearch, 10, 'date', 'desc');
+            $historyJSON = $this->radarrApi->getHistory($pageToSearch, 10, 'date', 'descending');
             LogSonarr::debug('JSON FOR HISTORY' . $historyJSON);
             $history = $this->utils->verifyJson($historyJSON);
             if ($history == NULL || empty($history['records'])) {
